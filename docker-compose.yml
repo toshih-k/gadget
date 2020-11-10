@@ -1,0 +1,23 @@
+version: '3'
+services:
+  app:
+    build: ./
+    image: sandbox/gadget
+    ports:
+      - "3000:3000"
+    hostname: gadget
+    volumes:
+      - ./:/usr/src/app:rw
+      # - /usr/src/app/vendor/node_modules
+    tmpfs:
+      - /usr/src/app/test/dummy/tmp
+      - /usr/src/app/test/dummy/log
+    # environment:
+    #   - VIRTUAL_HOST=pms
+    #   - VIRTUAL_PORT=3000
+    #   - DBHOST=pmsdb
+    #   - DBUSER=admin
+    #   - DBPASSWORD=system
+    #   - HTTPS_METHOD=noredirect
+    #   - RAILS_ENV=development
+
