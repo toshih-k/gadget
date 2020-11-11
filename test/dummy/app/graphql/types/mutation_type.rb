@@ -6,5 +6,11 @@ module Types
     def test_field
       "Hello World"
     end
+
+    field :create_book, mutation: Mutations::CreateBookMutation
+
+    # create Book
+    # update Book
+    # delete Book
   end
 end

@@ -9,5 +9,9 @@ module Types
     def test_field
       "Hello World!"
     end
+
+    index Book
+    show Book
+    index Owner
   end
 end
