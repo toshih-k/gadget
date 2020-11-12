@@ -1,0 +1,39 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+ca1:
+  name: Basics
+  book: ca
+ca2:
+  name: Advance
+  book: ca
+
+mg1:
+  name: Section Management
+  book: mg
+mg2:
+  name: Division Management
+  book: mg
+mg3:
+  name: Department Management
+  book: mg
+
+fa1:
+  name: Assets
+  book: fa
+fa2:
+  name: Debts
+  book: fa
+fa3:
+  name: Capital
+  book: fa
+fa4:
+  name: Sales
+  book: fa
+fa5:
+  name: Cost
+  book: fa
+

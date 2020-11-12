@@ -13,10 +13,12 @@ module Gadget
             end
             active_record_class.reflections.each do |reflection_name, definition|
               field_name = reflection_name.to_sym
+              field_type = "Types::#{definition.klass}Type".constantize
               case
               when (definition.belongs_to? or definition.has_one?)
-                field_type = "Types::#{definition.klass}Type".constantize
                 field field_name, field_type, null: true
+              when (definition.collection?)
+                field field_name, [field_type], null: true
               end
             end
 

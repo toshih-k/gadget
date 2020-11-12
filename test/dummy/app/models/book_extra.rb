@@ -1,0 +1,3 @@
+class BookExtra < ApplicationRecord
+  belongs_to :book
+end
