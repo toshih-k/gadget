@@ -1,9 +1,55 @@
-# Gadget
+Gadget
+======
 
-GraphQL / ActiveRecord Dynamic GEneraTor
+**Graphql / Activerecord Dynamic GEneraTor**
+
+[graphql-ruby](https://github.com/rmosolgo/graphql-ruby)の
+
+* ObjectType
+* InputObjectType
+* EnumType
+* Query
+* Mutation
+
+の内容をActiveRecordの定義情報を使用してfield、argumentsを動的に生成します。
 
 ## Usage
-How to use my plugin.
+
+### ObjectTypeの作成
+
+[ModelName]のObjectTypeを作成する場合
+
+app/graphql/types/[model_name]_type.rb
+```ruby
+module Types
+  class [ModelName]Type < Types::BaseObject
+    from_active_record [ModelName]
+  end
+end
+```
+
+[ModelName]のInputObjectTypeを作成する場合
+
+app/graphql/types/[model_name]_input_type.rb
+```ruby
+module Types
+  class [ModelName]InputType < Types::BaseInputObject
+    from_active_record [ModelName]
+  end
+end
+```
+
+[ModelName]の列挙型[enum_name]のEmumTypeを作成する場合
+
+app/graphql/types/[enum_name]_type.rb
+```ruby
+module Types
+  class [EnumName]Type < Types::BaseEnum
+    from_active_record_enum [ModelName], '[enum_name]'
+  end
+end
+```
+
 
 ## Installation
 Add this line to your application's Gemfile:
@@ -14,7 +60,7 @@ gem 'gadget'
 
 And then execute:
 ```bash
-$ bundle
+$ bundle install
 ```
 
 Or install it yourself as:
@@ -26,4 +72,4 @@ $ gem install gadget
 Contribution directions go here.
 
 ## License
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+Gadget is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).

@@ -22,10 +22,12 @@ module Gadget
 
             active_record_class.reflections.each do |reflection_name, definition|
               field_name = reflection_name.to_sym
+              field_type = "Types::#{definition.klass}InputType".constantize
               case
-              when (definition.has_one?)
-                field_type = "Types::#{definition.klass}InputType".constantize
+              when (definition.has_one? or definition.belongs_to?)
                 argument field_name, field_type, required: false
+              when (definition.collection?)
+                argument field_name, [field_type], required: false
               end
             end
 
