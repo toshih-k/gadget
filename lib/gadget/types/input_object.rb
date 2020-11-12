@@ -11,7 +11,6 @@ module Gadget
               field_type = Gadget::Common::Utility.get_field_type(active_record_class, column)
               argument field_name, field_type, required: false
             end
-
             active_record_class.reflections.each do |reflection_name, definition|
               field_name = reflection_name.to_sym
               next unless active_record_class.nested_attributes_options.keys.include?(field_name)

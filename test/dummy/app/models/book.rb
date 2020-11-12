@@ -3,6 +3,7 @@ class Book < ApplicationRecord
   has_one :book_extra
   has_many :sections
   has_and_belongs_to_many :authors
+  accepts_nested_attributes_for :owner
 
   enum inventory_type: {
     has_stock: 1,

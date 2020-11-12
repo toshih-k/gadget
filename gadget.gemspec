@@ -36,4 +36,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "graphiql-rails"
   spec.add_development_dependency "ransack"
   spec.add_development_dependency "kaminari"
+  spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "rubocop-rails"
 end

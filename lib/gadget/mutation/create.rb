@@ -15,7 +15,7 @@ module Gadget
 
               field_name = column.name.to_sym
               next if Gadget::Common::Utility.skip_columns.include? field_name
-              p that
+
               field_type = Gadget::Common::Utility.get_field_type(active_record_class, column)
               that.argument field_name, field_type, required: (not(column.null) and column.default.nil?)
             end

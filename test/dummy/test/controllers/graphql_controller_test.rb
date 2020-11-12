@@ -4,7 +4,13 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
   test "index query with any relation(belongs_to, has_one, has_many, has_and_belongs_to_many" do
     books = Book.all
 
-    post '/graphql', params: { query: 'query { books {name owner{name} bookExtra{editorsComment} sections{name} authors{name}} }' }, as: :json
+    post '/graphql', {
+      params: {
+        query:
+         'query { books {name owner{name} bookExtra{editorsComment} sections{name} authors{name}} }'
+      },
+      as: :json
+    }
     assert_response 200
     res = JSON.parse(response.body)
     assert_equal(books.count, res['data']['books'].count)
@@ -18,7 +24,14 @@ class GraphqlControllerTest < ActionDispatch::IntegrationTest
   test "show query with any relation(belongs_to, has_one, has_many, has_and_belongs_to_many" do
     book = Book.first
 
-    post '/graphql', params: { query: 'query($id: ID!) { book(id: $id) {name owner{name} bookExtra{editorsComment} sections{name} authors{name}} }', variables: {id: book.id} }, as: :json
+    post '/graphql', {
+      params: {
+        query:
+          'query($id: ID!) { book(id: $id) {name owner{name} bookExtra{editorsComment} sections{name} authors{name}} }',
+        variables: { id: book.id }
+      },
+      as: :json
+    }
     assert_response 200
     res = JSON.parse(response.body)
     assert_equal(book.name, res['data']['book']['name'])
