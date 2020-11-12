@@ -1,16 +1,6 @@
 require 'test_helper'
 
 class GraphqlControllerTest < ActionDispatch::IntegrationTest
-  test "simple index query" do
-    books = Book.all
-
-    post '/graphql', params: { query: '{ books {name} }' }, as: :json
-    assert_response 200
-    res = JSON.parse(response.body)
-    assert_equal(books.count, res['data']['books'].count)
-    assert_equal(books[0].name, res['data']['books'][0]['name'])
-  end
-
   test "index query with any relation(belongs_to, has_one, has_many, has_and_belongs_to_many" do
     books = Book.all
 

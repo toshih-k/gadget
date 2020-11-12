@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "graphql", "~> 1.11", ">= 1.11.6"
   spec.add_dependency "ransack", "~> 2.3", ">= 2.3.2"
   spec.add_dependency "kaminari", "~> 1.2", ">= 1.2.1"
+  spec.add_dependency "enum_help", "~> 0.0.17", ">= 0.0.17"
 
   spec.add_development_dependency "sqlite3"
   spec.add_development_dependency "graphql"
