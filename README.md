@@ -11,9 +11,29 @@ Gadget
 * Query
 * Mutation
 
-の内容をActiveRecordの定義情報を使用してfield、argumentsを動的に生成します。
+の内容をActiveRecordの定義情報を使用してCRUDなAPIを動的に生成します。
 
 ## Usage
+
+### 一覧表示用Queryの作成
+
+incomming...
+
+### 詳細表示用Queryの作成
+
+incomming...
+
+### 登録用Mutationの作成
+
+incomming...
+
+### 更新用Mutationの作成
+
+incomming...
+
+### 削除用Mutationの作成
+
+incomming...
 
 ### ObjectTypeの作成
 

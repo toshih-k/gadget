@@ -4,7 +4,7 @@ module Gadget
       extend ActiveSupport::Concern
       included do
         class << self
-          def update(active_record_class)
+          def update_mutation_for(active_record_class)
             description "update #{active_record_class.name}"
             field Gadget::Common::Utility.result_field_name(active_record_class), Gadget::Common::Utility.object_type_class(active_record_class), null: false
             field "errors", GraphQL::Types::JSON, null: true

@@ -1,5 +1,5 @@
 module Mutations
   class CreateBookMutation < BaseMutation
-    create Book
+    create_mutation_for Book
   end
 end
