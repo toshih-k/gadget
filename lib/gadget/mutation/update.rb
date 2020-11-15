@@ -18,15 +18,18 @@ module Gadget
 
             active_record_class.reflections.each do |reflection_name, definition|
               field_name = reflection_name.to_sym
+              field_type = "Types::#{definition.klass}InputType".constantize
               case
-              when (definition.has_one?)
-                field_type = "Types::#{definition.klass}InputType".constantize
+              when (definition.has_one? or definition.belongs_to?)
                 argument field_name, field_type, required: false
+              when (definition.collection?)
+                argument field_name, [field_type], required: false
               end
             end
 
             define_method("resolve") do |params|
-              instance = active_record_class.find(params[:id])
+              params = params.as_json
+              instance = active_record_class.find(params["id"])
               attributes = params.keys.reduce({}) do |attributes, key|
                 if active_record_class.reflections.keys.include?(key.to_s)
                   values = params[key]
@@ -43,7 +46,8 @@ module Gadget
                 }
               else
                 {
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance, "errors" => instance.errors.full_messages
+                  Gadget::Common::Utility.result_field_name(active_record_class) => instance,
+                  "errors" => instance.errors.full_messages
                 }
               end
             end

@@ -32,15 +32,28 @@ module Gadget
             end
 
             define_method("resolve") do |params|
-              instance = active_record_class.new(params)
+              params = params.as_json
+              attributes = params.keys.reduce({}) do |attributes, key|
+                if active_record_class.reflections.keys.include?(key.to_s)
+                  values = params[key]
+                  attributes["#{key}_attributes"] = values if values
+                else
+                  attributes[key] = params[key]
+                end
+                attributes
+              end
+              instance = active_record_class.new(attributes)
               instance.save
               if instance.save
                 {
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance
+                  Gadget::Common::Utility.result_field_name(active_record_class).to_sym => instance.as_json,
+                  "clientMutationId" => instance.id,
+                  "errors" => []
                 }
               else
                 {
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance, "errors" => instance.errors.full_messages
+                  Gadget::Common::Utility.result_field_name(active_record_class).to_sym => instance,
+                  "errors" => instance.errors.full_messages
                 }
               end
             end

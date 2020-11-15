@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GraphqlControllerTest < ActionDispatch::IntegrationTest
+class QueryTypesTest < ActionDispatch::IntegrationTest
   test "index query with any relation(belongs_to, has_one, has_many, has_and_belongs_to_many" do
     books = Book.all
 
