@@ -32,4 +32,4 @@ jobs:
     - name: Do database migration
       run: cd test/dummy && bundle exec rails db:migrate
     - name: Run tests
-      run: bundle exec rake
+      run: ../bin/test
