@@ -4,7 +4,7 @@ module Gadget
       extend ActiveSupport::Concern
       included do
         class << self
-          def delete_mutation_for(active_record_class, options)
+          def delete_mutation_for(active_record_class, options = {})
             description "delete #{active_record_class.name}"
             argument active_record_class.primary_key, GraphQL::Types::ID, required: true
 

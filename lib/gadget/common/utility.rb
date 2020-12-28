@@ -2,16 +2,18 @@ module Gadget
   module Common
     module Utility
       class << self
-        def get_field_type(active_record_class, column)
-          if column.name == active_record_class.primary_key
+        def get_field_type(active_record_class, attribute_name)
+          if attribute_name == active_record_class.primary_key
             GraphQL::Types::Int
-          elsif active_record_class.defined_enums[column.name]
-            "Types::#{active_record_class.name}#{column.name.camelize}Type".constantize
+          elsif active_record_class.defined_enums[attribute_name]
+            "Types::#{active_record_class.name}#{attribute_name.camelize}Type".constantize
           else
-            case column.type
+            attribute_type = active_record_class.attribute_types[attribute_name]
+            case attribute_type.type
             when :integer
-              case column.sql_type
-              when /^tinyint/, /^int/
+              column_type = active_record_class.columns_hash[attribute_name]
+
+              if column_type and column_type.sql_type =~ /^(tinyint|int)/
                 GraphQL::Types::Int
               else
                 GraphQL::Types::BigInt
@@ -36,14 +38,20 @@ module Gadget
           end
         end
 
+        def get_field_nullability(active_record_class, attribute_name)
+          column_type = active_record_class.columns_hash[attribute_name]
+          !column_type or column_type.null
+        end
+
         def skip_columns
           [:created_at, :created_by, :updated_at, :updated_by]
         end
 
         def generate_input_arguments(instance, active_record_class, options)
-          active_record_class.columns.each do |column|
-            field_name = column.name.to_sym
-            field_type = Gadget::Common::Utility.get_field_type(active_record_class, column)
+          active_record_class.attribute_names.each do |attribute_name|
+            field_name = attribute_name.to_sym
+            field_type = Gadget::Common::Utility.get_field_type(active_record_class, attribute_name)
+            # required = Gadget::Common::Utility.get_field_nullability(active_record_class, attribute_name)
             instance.argument field_name, field_type, required: false
           end
           active_record_class.reflections.each do |reflection_name, definition|

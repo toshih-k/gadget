@@ -6,10 +6,11 @@ module Gadget
         class << self
           def from_active_record(active_record_class)
             description active_record_class.name
-            active_record_class.columns.each do |column|
-              field_name = column.name.to_sym
-              field_type = Gadget::Common::Utility.get_field_type(active_record_class, column)
-              field field_name, field_type, null: column.null
+            active_record_class.attribute_names.each do |attribute_name|
+              field_name = attribute_name.to_sym
+              field_type = Gadget::Common::Utility.get_field_type(active_record_class, attribute_name)
+              nullable = Gadget::Common::Utility.get_field_nullability(active_record_class, attribute_name)
+              field field_name, field_type, null: nullable
             end
             active_record_class.reflections.each do |reflection_name, definition|
               field_name = reflection_name.to_sym

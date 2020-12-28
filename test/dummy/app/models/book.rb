@@ -10,4 +10,6 @@ class Book < ApplicationRecord
     no_stock: 2,
     ebook: 3
   }
+
+  attribute :title, :integer
 end

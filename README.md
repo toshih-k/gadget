@@ -175,6 +175,9 @@ module Types
 end
 ```
 
+## Tips
+
+カラムに無いフィールドを追加したい場合は、model classでattributeを指定してください。
 
 ## Installation
 Add this line to your application's Gemfile:
