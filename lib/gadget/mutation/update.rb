@@ -4,28 +4,11 @@ module Gadget
       extend ActiveSupport::Concern
       included do
         class << self
-          def update_mutation_for(active_record_class)
+          def update_mutation_for(active_record_class, options)
             description "update #{active_record_class.name}"
             field Gadget::Common::Utility.result_field_name(active_record_class), Gadget::Common::Utility.object_type_class(active_record_class), null: false
             field "errors", GraphQL::Types::JSON, null: true
-            active_record_class.columns.each do |column|
-              field_name = column.name.to_sym
-              next if Gadget::Common::Utility.skip_columns.include? field_name
-
-              field_type = Gadget::Common::Utility.get_field_type(active_record_class, column)
-              argument field_name, field_type, required: false
-            end
-
-            active_record_class.reflections.each do |reflection_name, definition|
-              field_name = reflection_name.to_sym
-              field_type = "Types::#{definition.klass}InputType".constantize
-              case
-              when (definition.has_one? or definition.belongs_to?)
-                argument field_name, field_type, required: false
-              when (definition.collection?)
-                argument field_name, [field_type], required: false
-              end
-            end
+            Gadget::Common::Utility.generate_input_arguments(self, active_record_class, options)
 
             define_method("resolve") do |params|
               params = params.as_json
