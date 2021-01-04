@@ -10,13 +10,6 @@ module Gadget
       require 'gadget/mutation/create'
       require 'gadget/mutation/update'
       require 'gadget/mutation/delete'
-      require 'gadget/generators/type_generator'
-      require 'gadget/generators/input_type_generator'
-      require 'gadget/generators/index_query_generator'
-      require 'gadget/generators/show_query_generator'
-      require 'gadget/generators/create_mutation_generator'
-      require 'gadget/generators/update_mutation_generator'
-      require 'gadget/generators/delete_mutation_generator'
 
       GraphQL::Schema::Object.include Gadget::Types::Object
       GraphQL::Schema::InputObject.include Gadget::Types::InputObject

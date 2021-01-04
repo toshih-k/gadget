@@ -5,7 +5,7 @@ module Gadget
       included do
         class << self
           def delete_mutation_for(active_record_class, options = {})
-            description "delete #{active_record_class.name}"
+            description "#{active_record_class.model_name.human}を削除する"
             argument active_record_class.primary_key, GraphQL::Types::ID, required: true
 
             define_method("resolve") do |params|

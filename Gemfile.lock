@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gadget (0.1.6)
+    gadget (0.2.1)
       enum_help (~> 0.0.17, >= 0.0.17)
       graphql (~> 1.11, >= 1.11.6)
       kaminari (~> 1.2, >= 1.2.1)

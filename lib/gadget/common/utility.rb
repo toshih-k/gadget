@@ -52,7 +52,7 @@ module Gadget
             field_name = attribute_name.to_sym
             field_type = Gadget::Common::Utility.get_field_type(active_record_class, attribute_name)
             # required = Gadget::Common::Utility.get_field_nullability(active_record_class, attribute_name)
-            instance.argument field_name, field_type, required: false
+            instance.argument field_name, field_type, required: false, description: active_record_class.human_attribute_name(attribute_name)
           end
           active_record_class.reflections.each do |reflection_name, definition|
             field_name = reflection_name.to_sym
@@ -61,9 +61,9 @@ module Gadget
             field_type = "Types::#{definition.klass}InputType".constantize
             case
             when (definition.belongs_to? or definition.has_one?)
-              instance.argument field_name, field_type, required: false
+              instance.argument field_name, field_type, required: false, description: definition.klass.model_name.human
             when (definition.collection?)
-              instance.argument field_name, [field_type], required: false
+              instance.argument field_name, [field_type], required: false, description: "#{definition.klass.model_name.human}のコレクション"
             end
           end
           yield if block_given?

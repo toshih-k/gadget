@@ -1,3 +1,3 @@
 module Gadget
-  VERSION = '0.1.7'
+  VERSION = '0.2.1'
 end
