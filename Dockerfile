@@ -7,6 +7,6 @@ COPY . .
 RUN bundle install
 
 WORKDIR /usr/src/app/test/dummy
-RUN bin/rails assets:precompile
+#RUN bin/rails assets:precompile
 EXPOSE 3000
 CMD ["bin/rails", "server", "-b", "0.0.0.0"]
