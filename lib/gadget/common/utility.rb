@@ -33,7 +33,7 @@ module Gadget
             when :datetime
               GraphQL::Types::ISO8601DateTime
             else
-              raise "Cannot convert column TYPE to GraphQL TYPE column.type=[#{column.type}]"
+              raise "Cannot convert column TYPE to GraphQL TYPE column.type=[#{column_type}]"
             end
           end
         end
