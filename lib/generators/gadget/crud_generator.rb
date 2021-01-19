@@ -22,7 +22,7 @@ module Gadget
         @execute_actions = options[:only]
       end
       if options[:except]
-        @execute_actions = all_actions - options[:except]
+        @execute_actions = ALL_ACTIONS - options[:except]
       end
     end
 
