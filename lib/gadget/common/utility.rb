@@ -20,6 +20,16 @@ module Gadget
               end
             when :float
               GraphQL::Types::Float
+            when :decimal
+              if attribute_type.scale.blank?
+                if attribute_type.precision > 10
+                  GraphQL::Types::BigInt
+                else
+                  GraphQL::Types::Int
+                end
+              else
+                GraphQL::Types::Float
+              end
             when :boolean
               GraphQL::Types::Boolean
             when :string
@@ -33,7 +43,7 @@ module Gadget
             when :datetime
               GraphQL::Types::ISO8601DateTime
             else
-              raise "Cannot convert column TYPE to GraphQL TYPE column.type=[#{column_type}] on #{active_record_class.to_s}::#{attribute_name}"
+              raise "Cannot convert column TYPE to GraphQL TYPE column.type=[#{attribute_type.type}] on #{active_record_class.to_s}::#{attribute_name}"
             end
           end
         end
