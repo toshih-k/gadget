@@ -13,6 +13,9 @@ module Gadget
             end
 
             define_method("resolve") do |params|
+              unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization, context, :create_mutation)
+                raise 'access denied'
+              end
               params = params.as_json
               attributes = params.keys.reduce({}) do |attributes, key|
                 if active_record_class.reflections.keys.include?(key.to_s)
@@ -28,7 +31,6 @@ module Gadget
               if instance.save
                 {
                   Gadget::Common::Utility.result_field_name(active_record_class).to_sym => instance.as_json,
-                  "clientMutationId" => instance.id,
                   "errors" => []
                 }
               else

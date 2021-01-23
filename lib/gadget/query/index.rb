@@ -10,10 +10,10 @@ module Gadget
               argument :q, GraphQL::Types::JSON, required: false, description: "検索用のransackパラメータ"
             end
             define_method(Gadget::Common::Utility.collection_name(active_record_class)) do |q: nil, page: nil, per: nil|
-              relation = active_record_class
-              if active_record_class.respond_to?(:before_index_query)
-                relation = active_record_class.before_index_query
+              unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization, context, :index_query)
+                raise 'access denied'
               end
+              relation = Gadget::Common::Utility.execute_method_if_exist(active_record_class, active_record_class, :before_gadget_index_query)
               q = relation.ransack(Gadget::Common::Utility.camel_to_underscore(q))
               q.result
             end

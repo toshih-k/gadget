@@ -9,6 +9,9 @@ module Gadget
             argument active_record_class.primary_key, GraphQL::Types::ID, required: true
 
             define_method("resolve") do |params|
+              unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization, context, :delete_mutation)
+                raise 'access denied'
+              end
               params = params.as_json
               instance = active_record_class.find(params[active_record_class.primary_key])
               if instance.destroy

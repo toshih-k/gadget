@@ -75,9 +75,31 @@ module Types
 end
 ```
 
+## フィルタ
+
+index/showクエリで絞り込みを行いたい場合などには、モデルクラスで静的メソッド
+before_gadget_index_query/before_gadget_show_queryを定義し、ActiveRecordRelationオブジェクトを返すようにします。
+
+## 認証
+
+各処理で認証を行いたい場合は、モデルクラスで静的メソッドgadget_authorizationを定義します。
+第1引数には、GraphQL rubyのcontextオブジェクト、第2引数には、mutation/queryの種別(create_mutaion, update_muation, delete_mutation, index_query, show_queryのいずれかの値)が入ります。
+帰値は真偽をとり、falseを返すと認証エラーになります。
+```ruby
+class SomeClass < ApplicationRecord
+  ...
+  def self.gadget_authorization(context, type)
+    # 削除は管理者のみに限定する
+    return type != 'delete_mutation' or context[:user].is_admin?
+  end
+  ...
+end
+```
+
+
 ## Tips
 
-カラムに無いフィールドを追加したい場合は、model classでattributeを指定してください。
+* カラムに無いフィールドを追加したい場合は、model classでattributeを指定すれば追加されます。
 
 ## Installation
 Add this line to your application's Gemfile:

@@ -10,7 +10,11 @@ module Gadget
               argument :id, GraphQL::Types::ID, required: true
             end
             define_method(active_record_class.name.underscore) do |id:|
-              active_record_class.find(id)
+              unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization, context, :show_query)
+                raise 'access denied'
+              end
+              relation = Gadget::Common::Utility.execute_method_if_exist(active_record_class, active_record_class, :before_gadget_show_query)
+              relation.find(id)
             end
           end
         end

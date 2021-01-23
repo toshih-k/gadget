@@ -2,6 +2,14 @@ module Gadget
   module Common
     module Utility
       class << self
+        def execute_method_if_exist(object, default_value, method_name, *params)
+          if object.respond_to?(method_name)
+            object.public_send(method_name, *params)
+          else
+            default_value
+          end
+        end
+
         def get_field_type(active_record_class, attribute_name)
           if attribute_name == active_record_class.primary_key
             GraphQL::Types::Int

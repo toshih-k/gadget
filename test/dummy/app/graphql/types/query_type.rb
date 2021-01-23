@@ -13,5 +13,6 @@ module Types
     index Book
     show Book
     index Owner
+    show Owner
   end
 end
