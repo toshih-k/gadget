@@ -1,6 +1,6 @@
 class CreateOwners < ActiveRecord::Migration[6.0]
   def change
-    create_table :owners do |t|
+    create_table :owners, comment: '所有者' do |t|
       t.string :name, comment: "name"
       t.timestamps
     end
