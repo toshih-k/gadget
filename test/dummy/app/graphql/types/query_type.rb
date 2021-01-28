@@ -10,7 +10,7 @@ module Types
       "Hello World!"
     end
 
-    index Book
+    index Book, paginate: true, name: 'BooksPaginated'
     show Book
     index Owner
     show Owner

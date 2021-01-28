@@ -75,6 +75,15 @@ module Types
 end
 ```
 
+## カスタマイズ
+
+### indexクエリ
+
+オプション
+
+name[String]: クエリ名を指定
+paginate[Boolean]: Kaminariベースのページングを行う
+
 ## フィルタ
 
 index/showクエリで絞り込みを行いたい場合などには、モデルクラスで静的メソッド
