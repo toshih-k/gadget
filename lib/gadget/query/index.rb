@@ -27,9 +27,10 @@ module Gadget
               relation = Gadget::Common::Utility.execute_method_if_exist(active_record_class, active_record_class, :before_gadget_index_query)
               q = relation.ransack(Gadget::Common::Utility.camel_to_underscore(q))
               if paginate
-                q = q.page(page).par(per)
+                q.result.page(page).par(per)
+              else
+                q.result
               end
-              q.result
             end
           end
         end
