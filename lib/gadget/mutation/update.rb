@@ -6,6 +6,7 @@ module Gadget
         class << self
           def update_mutation_for(active_record_class, options = {})
             description "#{active_record_class.model_name.human}を更新する"
+            field "success", GraphQL::Types::Boolean, null: false
             field Gadget::Common::Utility.result_field_name(active_record_class), Gadget::Common::Utility.object_type_class(active_record_class), null: false
             field "errors", GraphQL::Types::JSON, null: true
             Gadget::Common::Utility.generate_input_arguments(self, active_record_class, options) do
@@ -30,11 +31,13 @@ module Gadget
               instance.attributes = attributes
               if instance.save
                 {
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance
+                  success: true,
+                  Gadget::Common::Utility.result_field_name(active_record_class) => instance.as_json
                 }
               else
                 {
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance,
+                  success: false,
+                  Gadget::Common::Utility.result_field_name(active_record_class) => instance.as_json,
                   "errors" => instance.errors.full_messages
                 }
               end

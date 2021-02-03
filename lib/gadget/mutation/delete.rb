@@ -6,6 +6,9 @@ module Gadget
         class << self
           def delete_mutation_for(active_record_class, options = {})
             description "#{active_record_class.model_name.human}を削除する"
+            field "success", GraphQL::Types::Boolean, null: false
+            field Gadget::Common::Utility.result_field_name(active_record_class), Gadget::Common::Utility.object_type_class(active_record_class), null: false
+            field "errors", GraphQL::Types::JSON, null: true
             argument active_record_class.primary_key, GraphQL::Types::ID, required: true
 
             define_method("resolve") do |params|
@@ -16,10 +19,12 @@ module Gadget
               instance = active_record_class.find(params[active_record_class.primary_key])
               if instance.destroy
                 {
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance
+                  success: true,
+                  Gadget::Common::Utility.result_field_name(active_record_class) => instance.as_json
                 }
               else
                 {
+                  success: false,
                   Gadget::Common::Utility.result_field_name(active_record_class) => instance,
                   "errors" => instance.errors.full_messages
                 }
