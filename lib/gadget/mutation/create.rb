@@ -35,7 +35,7 @@ module Gadget
                 }
               else
                 {
-                  success: false
+                  success: false,
                   Gadget::Common::Utility.result_field_name(active_record_class).to_sym => instance.as_json,
                   "errors" => instance.errors.full_messages
                 }
