@@ -10,7 +10,7 @@ module Gadget
               field_name = attribute_name.to_sym
               field_type = Gadget::Common::Utility.get_field_type(active_record_class, attribute_name)
               nullable = Gadget::Common::Utility.get_field_nullability(active_record_class, attribute_name)
-              field field_name, field_type, null: nullable, description: active_record_class.human_attribute_name(field_name)
+              field field_name, field_type, null: true, description: active_record_class.human_attribute_name(field_name)
             end
             active_record_class.reflections.each do |reflection_name, definition|
               field_name = reflection_name.to_sym
