@@ -65,6 +65,12 @@ module Gadget
           [:created_at, :created_by, :updated_at, :updated_by]
         end
 
+        def make_error_messages(errors)
+          errors.map do |key, error|
+            [key, errors.full_messages_for(key)]
+          end.to_h
+        end
+
         def generate_input_arguments(instance, active_record_class, options)
           active_record_class.attribute_names.each do |attribute_name|
             field_name = attribute_name.to_sym

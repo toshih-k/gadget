@@ -26,7 +26,7 @@ module Gadget
                 {
                   success: false,
                   Gadget::Common::Utility.result_field_name(active_record_class) => instance,
-                  "errors" => instance.errors.full_messages
+                  "errors" => Gadget::Common::Utility.make_error_messages(instance.errors)
                 }
               end
             end
