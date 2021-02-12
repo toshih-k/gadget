@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class MutationTest < ActionDispatch::IntegrationTest
-  book_count = Book.count
   test "create mutation" do
+    book_count = Book.count
+
     query = <<'GQL'
     mutation($input: CreateBookMutationInput!) {
       createBook(input: $input) {
@@ -45,6 +46,8 @@ GQL
   end
 
   test "update mutation" do
+    book_count = Book.count
+
     book = Book.first
     modified_book_name = book.name + "aaa"
     modified_owner_name = book.owner.name + "aaa"
@@ -94,15 +97,14 @@ GQL
   end
 
   test "delete mutation" do
-    book = Book.first
     book_count = Book.count
+    book = Book.first
     query = <<'GQL'
     mutation($input: DeleteBookMutationInput!) {
       deleteBook(input: $input) {
         book {
           id
           name
-          owner
         }
         clientMutationId
         errors
@@ -126,8 +128,10 @@ GQL
     )
     assert_response 200
     res = JSON.parse(response.body)
-    book_modified = Book.find(book.id)
-    assert_equal(book_count, Book.count)
+    assert_raises ActiveRecord::RecordNotFound do
+      Book.find(book.id)
+    end
+    assert_equal(book_count - 1, Book.count)
   end
 
 end
