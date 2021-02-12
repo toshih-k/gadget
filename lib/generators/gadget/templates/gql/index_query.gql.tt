@@ -1,12 +1,12 @@
 query ($q: JSON!, $page: Int!, $per: Int!){
-  <%= name.downcase.pluralize %>(
+  <%= name.pluralize.camelize(:lower) %>(
     q: $q
     page: $page
     per: $per
   ){
     records {
 <% name.constantize.columns.each do |column| -%>
-      <%= "#{column.name[0].downcase}#{column.name[1..]}" %>
+      <%= "#{column.name.camelize(:lower)}" %>
 <% end -%>
     }
     totalCount

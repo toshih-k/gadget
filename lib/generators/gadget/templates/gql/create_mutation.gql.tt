@@ -1,6 +1,6 @@
 mutation ($input: Create<%= name %>MutationInput!){
   create<%= name %>(input: $input) {
-    <%= name.downcase %> {
+    <%= name.camelize(:lower) %> {
       id
     }
     success

@@ -1,7 +1,7 @@
 query ($id: ID!) {
-  <%= name.downcase %>(id: $id) {
+  <%= name.camelize(:lower) %>(id: $id) {
 <% name.constantize.columns.each do |column| -%>
-    <%= "#{column.name[0].downcase}#{column.name[1..]}" %>
+    <%= "#{column.name.camelize(:lower)}" %>
 <% end -%>
   }
 }
