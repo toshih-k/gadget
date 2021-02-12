@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Book < ApplicationRecord
   belongs_to :owner
   has_one :book_extra

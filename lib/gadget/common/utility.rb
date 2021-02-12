@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gadget
   module Common
     module Utility
@@ -21,7 +23,7 @@ module Gadget
             when :integer
               column_type = active_record_class.columns_hash[attribute_name]
 
-              if column_type and column_type.sql_type =~ /^(tinyint|int)/
+              if column_type && column_type.sql_type =~ (/^(tinyint|int)/)
                 GraphQL::Types::Int
               else
                 GraphQL::Types::BigInt
@@ -51,7 +53,7 @@ module Gadget
             when :datetime
               GraphQL::Types::ISO8601DateTime
             else
-              raise "Cannot convert column TYPE to GraphQL TYPE column.type=[#{attribute_type.type}] on #{active_record_class.to_s}::#{attribute_name}"
+              raise "Cannot convert column TYPE to GraphQL TYPE column.type=[#{attribute_type.type}] on #{active_record_class}::#{attribute_name}"
             end
           end
         end
@@ -62,32 +64,33 @@ module Gadget
         end
 
         def skip_columns
-          [:created_at, :created_by, :updated_at, :updated_by]
+          %i[created_at created_by updated_at updated_by]
         end
 
         def make_error_messages(errors)
-          errors.map do |key, error|
+          errors.map do |key, _error|
             [key, errors.full_messages_for(key)]
           end.to_h
         end
 
-        def generate_input_arguments(instance, active_record_class, options)
+        def generate_input_arguments(instance, active_record_class, _options)
           active_record_class.attribute_names.each do |attribute_name|
             field_name = attribute_name.to_sym
             field_type = Gadget::Common::Utility.get_field_type(active_record_class, attribute_name)
             # required = Gadget::Common::Utility.get_field_nullability(active_record_class, attribute_name)
-            instance.argument field_name, field_type, required: false, description: active_record_class.human_attribute_name(attribute_name)
+            instance.argument field_name, field_type, required: false,
+                                                      description: active_record_class.human_attribute_name(attribute_name)
           end
           active_record_class.reflections.each do |reflection_name, definition|
             field_name = reflection_name.to_sym
             next unless active_record_class.nested_attributes_options.keys.include?(field_name)
 
             field_type = "Types::#{definition.klass}InputType".constantize
-            case
-            when (definition.belongs_to? or definition.has_one?)
+            if definition.belongs_to? || definition.has_one?
               instance.argument field_name, field_type, required: false, description: definition.klass.model_name.human
-            when (definition.collection?)
-              instance.argument field_name, [field_type], required: false, description: "#{definition.klass.model_name.human}のコレクション"
+            elsif definition.collection?
+              instance.argument field_name, [field_type], required: false,
+                                                          description: "#{definition.klass.model_name.human}のコレクション"
             end
           end
           yield if block_given?
@@ -99,23 +102,22 @@ module Gadget
         #
         def camel_to_underscore(params)
           result = {}
-          unless params.nil?
-            params.each do |key, val|
-              key = key.to_s.underscore
-              if (key == 's' || key == 'sorts') && val.instance_of?(String)
-                result[key] = val.split(/\s+/).map(&:underscore).join(' ').strip
-              elsif (key == 's' || key == 'sorts') && val.instance_of?(Array)
-                result[key] = val.map { |v| v.split(/\s+/).map(&:underscore).join(' ').strip }
-              elsif (key == 'g' || key == 'groupings') && (val.instance_of?(Hash) || val.instance_of?(Array))
-                if val.instance_of?(Hash)
-                  result[key] = val.values.map { |v| camel_to_underscore(v) }
-                else
-                  result[key] = val.map { |v| camel_to_underscore(v) }
-                end
-              else
-                result[key] = val
-              end
-            end
+          params&.each do |key, val|
+            key = key.to_s.underscore
+            result[key] = if %w[s sorts].include?(key) && val.instance_of?(String)
+                            val.split(/\s+/).map(&:underscore).join(' ').strip
+                          elsif %w[s sorts s sorts s sorts].include?(key) && val.instance_of?(Array)
+                            val.map { |v| v.split(/\s+/).map(&:underscore).join(' ').strip }
+                          elsif %w[s sorts s sorts s sorts s sorts g
+                                   groupings].include?(key) && (val.instance_of?(Hash) || val.instance_of?(Array))
+                            if val.instance_of?(Hash)
+                              val.values.map { |v| camel_to_underscore(v) }
+                            else
+                              val.map { |v| camel_to_underscore(v) }
+                            end
+                          else
+                            val
+                          end
           end
           result
         end
@@ -146,7 +148,7 @@ module Gadget
         #
         # コレクション用にクラス名をスネークケースの複数形にして返す
         #
-        def collection_name_paginated(active_record_class)
+        def collection_name_paginated(_active_record_class)
           "#{collection_name}_paginated"
         end
       end

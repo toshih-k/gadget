@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class BookPaginatedType < Types::BaseObject
     field :records, [Types::BookType], null: false

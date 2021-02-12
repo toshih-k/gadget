@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require "gadget"
+require 'gadget'
 
 module Dummy
   class Application < Rails::Application

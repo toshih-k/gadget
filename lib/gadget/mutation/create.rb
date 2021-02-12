@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gadget
   module Mutation
     module Create
@@ -6,26 +8,28 @@ module Gadget
         class << self
           def create_mutation_for(active_record_class, options = {})
             description "#{active_record_class.model_name.human}を作成する"
-            field "success", GraphQL::Types::Boolean, null: false
-            field Gadget::Common::Utility.result_field_name(active_record_class), Gadget::Common::Utility.object_type_class(active_record_class), null: false
-            field "errors", GraphQL::Types::JSON, null: true
+            field 'success', GraphQL::Types::Boolean, null: false
+            field Gadget::Common::Utility.result_field_name(active_record_class),
+                  Gadget::Common::Utility.object_type_class(active_record_class), null: false
+            field 'errors', GraphQL::Types::JSON, null: true
             Gadget::Common::Utility.generate_input_arguments(self, active_record_class, options) do
               yield if block_given?
             end
 
-            define_method("resolve") do |params|
-              unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization, context, :create_mutation)
+            define_method('resolve') do |params|
+              unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization,
+                                                                     context, :create_mutation)
                 raise 'access denied'
               end
+
               params = params.as_json
-              attributes = params.keys.reduce({}) do |attributes, key|
+              attributes = params.keys.each_with_object({}) do |key, attributes|
                 if active_record_class.reflections.keys.include?(key.to_s)
                   values = params[key]
                   attributes["#{key}_attributes"] = values if values
                 else
                   attributes[key] = params[key]
                 end
-                attributes
               end
               instance = active_record_class.new(attributes)
               if instance.save
@@ -37,7 +41,7 @@ module Gadget
                 {
                   success: false,
                   Gadget::Common::Utility.result_field_name(active_record_class).to_sym => instance.as_json,
-                  "errors" => Gadget::Common::Utility.make_error_messages(instance.errors)
+                  'errors' => Gadget::Common::Utility.make_error_messages(instance.errors)
                 }
               end
             end

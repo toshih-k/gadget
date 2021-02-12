@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateBookExtras < ActiveRecord::Migration[6.0]
   def change
     create_table :book_extras, comment: '本その他情報' do |t|

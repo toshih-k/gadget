@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class QueryTypesTest < ActionDispatch::IntegrationTest
-  test "index query with any relation(belongs_to, has_one, has_many, has_and_belongs_to_many" do
+  test 'index query with any relation(belongs_to, has_one, has_many, has_and_belongs_to_many' do
     books = Book.all
 
     post '/graphql', {
@@ -21,7 +23,7 @@ class QueryTypesTest < ActionDispatch::IntegrationTest
     assert_equal(books[0].sections[0].name, res['data']['books'][0]['sections'][0]['name'])
   end
 
-  test "show query with any relation(belongs_to, has_one, has_many, has_and_belongs_to_many" do
+  test 'show query with any relation(belongs_to, has_one, has_many, has_and_belongs_to_many' do
     book = Book.first
 
     post '/graphql', {

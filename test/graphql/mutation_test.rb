@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class MutationTest < ActionDispatch::IntegrationTest
-  test "create mutation" do
+  test 'create mutation' do
     book_count = Book.count
 
     query = <<'GQL'
@@ -22,9 +24,9 @@ class MutationTest < ActionDispatch::IntegrationTest
 GQL
     variables = {
       input: {
-        name: "foo",
+        name: 'foo',
         owner: {
-          name: "bar"
+          name: 'bar'
         }
       }
     }
@@ -45,12 +47,12 @@ GQL
     assert_equal(book.name, res['data']['createBook']['book']['name'])
   end
 
-  test "update mutation" do
+  test 'update mutation' do
     book_count = Book.count
 
     book = Book.first
-    modified_book_name = book.name + "aaa"
-    modified_owner_name = book.owner.name + "aaa"
+    modified_book_name = "#{book.name}aaa"
+    modified_owner_name = "#{book.owner.name}aaa"
     book_count = Book.count
     query = <<'GQL'
     mutation($input: UpdateBookMutationInput!) {
@@ -96,7 +98,7 @@ GQL
     assert_equal(book_modified.owner.name, modified_owner_name)
   end
 
-  test "delete mutation" do
+  test 'delete mutation' do
     book_count = Book.count
     book = Book.first
     query = <<'GQL'
@@ -113,7 +115,7 @@ GQL
 GQL
     variables = {
       input: {
-        id: book.id,
+        id: book.id
       }
     }
     post(
@@ -133,5 +135,4 @@ GQL
     end
     assert_equal(book_count - 1, Book.count)
   end
-
 end

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Gadget
   class Railtie < ::Rails::Railtie
-    initializer 'gadget' do |app|
+    initializer 'gadget' do |_app|
       require 'gadget/common/utility'
       require 'gadget/types/enum'
       require 'gadget/types/object'
