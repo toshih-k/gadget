@@ -27,8 +27,6 @@ module Gadget
                 raise 'access denied'
               end
               relation = Gadget::Common::Utility.execute_method_if_exist(active_record_class, active_record_class, :before_gadget_index_query)
-              logger.debug q
-              logger.debug Gadget::Common::Utility.camel_to_underscore(q)
               q = relation.ransack(Gadget::Common::Utility.camel_to_underscore(q))
               if paginate
                 result = q.result.page(page).per(per)
