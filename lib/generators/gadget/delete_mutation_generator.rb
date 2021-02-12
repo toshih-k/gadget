@@ -1,5 +1,9 @@
 module Gadget
   class DeleteMutationGenerator < Rails::Generators::NamedBase
+    def check_model_existance
+      raise "Cannot find model #{name}" unless Module.const_defined?(name)
+    end
+
     def modify_mutation
       inject_into_file "app/graphql/types/mutation_type.rb", "    field :delete_#{file_name}, mutation: Mutations::Delete#{name}Mutation\n", before: "  end\nend\n"
     end

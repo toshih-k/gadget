@@ -1,5 +1,9 @@
 module Gadget
   class ShowQueryGenerator < Rails::Generators::NamedBase
+    def check_model_existance
+      raise "Cannot find model #{name}" unless Module.const_defined?(name)
+    end
+
     def create_type
       generate "gadget:type", name
     end

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gadget (0.2.7)
+    gadget (0.2.17)
       enum_help (~> 0.0.17, >= 0.0.17)
       graphql (~> 1.11, >= 1.11.6)
       kaminari (~> 1.2, >= 1.2.1)
@@ -72,7 +72,6 @@ GEM
       zeitwerk (~> 2.3)
     ast (2.4.1)
     builder (3.2.4)
-    byebug (11.1.3)
     coderay (1.1.3)
     concurrent-ruby (1.1.7)
     crass (1.0.6)
@@ -111,19 +110,18 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.5.0)
     minitest (5.14.2)
-    nio4r (2.5.4)
+    nio4r (2.5.5)
     nokogiri (1.11.0)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
     parallel (1.20.1)
     parser (3.0.0.0)
       ast (~> 2.4.1)
-    pry (0.13.1)
+    pry (0.14.0)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry-byebug (3.9.0)
-      byebug (~> 11.0)
-      pry (~> 0.13.0)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     racc (1.5.2)
     rack (2.2.3)
     rack-test (1.1.0)
@@ -203,7 +201,7 @@ DEPENDENCIES
   graphiql-rails
   graphql
   kaminari
-  pry-byebug
+  pry-rails
   ransack
   rubocop
   rubocop-rails

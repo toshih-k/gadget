@@ -1,5 +1,9 @@
 module Gadget
   class PaginatedTypeGenerator < Rails::Generators::NamedBase
+    def check_model_existance
+      raise "Cannot find model #{name}" unless Module.const_defined?(name)
+    end
+
     def create_type_file
       create_file "app/graphql/types/#{file_name}_paginated_type.rb", <<EOS
 module Types

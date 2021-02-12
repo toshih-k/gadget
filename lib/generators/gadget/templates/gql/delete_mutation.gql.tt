@@ -1,0 +1,6 @@
+mutation ($input: Delete<%= name %>MutationInput!){
+  delete<%= name %>(input: $input) {
+    success
+    errors
+  }
+}

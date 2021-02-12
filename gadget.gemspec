@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "enum_help", "~> 0.0.17", ">= 0.0.17"
 
   spec.add_development_dependency "sqlite3"
-  spec.add_development_dependency "pry-byebug"
+  spec.add_development_dependency "pry-rails"
   spec.add_development_dependency "graphql"
   spec.add_development_dependency "graphiql-rails"
   spec.add_development_dependency "ransack"

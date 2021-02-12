@@ -42,26 +42,22 @@ rails g gadget:delete_mutation [ModelName]
 
 ### ObjectTypeの作成
 
-[ModelName]のObjectTypeを作成する場合
 
-app/graphql/types/[model_name]_type.rb
-```ruby
-module Types
-  class [ModelName]Type < Types::BaseObject
-    from_active_record [ModelName]
-  end
-end
+[ModelName]のObjectTypeを作成
+```sh
+rails g gadget:type [ModelName]
 ```
 
-[ModelName]のInputObjectTypeを作成する場合
+[ModelName]のInputObjectTypeを作成
 
-app/graphql/types/[model_name]_input_type.rb
-```ruby
-module Types
-  class [ModelName]InputType < Types::BaseInputObject
-    from_active_record [ModelName]
-  end
-end
+```sh
+rails g gadget:input_type [ModelName]
+```
+
+[ModelName]のPaginatedObjectTypeを作成
+(後述するkaminariを使用したpagingクエリの結果セット取得に使用)
+```sh
+rails g gadget:paginated_type [ModelName]
 ```
 
 [ModelName]の列挙型[enum_name]のEmumTypeを作成する場合
@@ -75,6 +71,13 @@ module Types
 end
 ```
 
+### サンプルGQLの作成
+
+```sh
+rails g gadget:gql [ModelName]
+```
+を実行するとtmp/gql以下にcrud用のgql一式を作成します。(index用のものはpaginated前提)
+
 ## カスタマイズ
 
 ### indexクエリ
@@ -83,6 +86,12 @@ end
 
 name[String]: クエリ名を指定
 paginate[Boolean]: Kaminariベースのページングを行う
+
+app/graphql/types/query_type.rb
+```
+  index Book, paginate: true, name: 'BooksPaginated'
+```
+返すObjectTypeが通常のObjectTypeの配列ではなく、[ModelName]PaginatedObjectTypeとなるため、別途generatorでpaginated object typeを作成する必要があります。
 
 ## フィルタ
 

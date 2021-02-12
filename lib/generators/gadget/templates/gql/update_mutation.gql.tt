@@ -1,0 +1,9 @@
+mutation ($input: Update<%= name %>MutationInput!){
+  update<%= name %>(input: $input) {
+    <%= name.downcase %> {
+      id
+    }
+    success
+    errors
+  }
+}
