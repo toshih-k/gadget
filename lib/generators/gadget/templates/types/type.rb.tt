@@ -1,0 +1,5 @@
+module Types
+  class <%= name %>Type < Types::BaseObject
+    from_active_record <%= name %>
+  end
+end

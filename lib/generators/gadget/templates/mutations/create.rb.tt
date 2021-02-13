@@ -1,0 +1,5 @@
+module Mutations
+  class Create<%= name %>Mutation < BaseMutation
+    create_mutation_for <%= name %>
+  end
+end

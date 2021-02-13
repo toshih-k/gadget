@@ -1,0 +1,5 @@
+module Mutations
+  class Update<%= name %>Mutation < BaseMutation
+    update_mutation_for <%= name %>
+  end
+end

@@ -1,0 +1,5 @@
+module Types
+  class <%= name %>InputType < Types::BaseInputObject
+    from_active_record <%= name %>
+  end
+end
