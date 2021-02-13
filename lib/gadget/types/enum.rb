@@ -2,6 +2,9 @@
 
 module Gadget
   module Types
+    #
+    # base enum type object for gadet
+    #
     module Enum
       extend ActiveSupport::Concern
       included do

@@ -2,6 +2,9 @@
 
 module Gadget
   module Types
+    #
+    # base type object for gadet
+    #
     module Object
       extend ActiveSupport::Concern
       included do
@@ -11,7 +14,6 @@ module Gadget
             active_record_class.attribute_names.each do |attribute_name|
               field_name = attribute_name.to_sym
               field_type = Gadget::Common::Utility.get_field_type(active_record_class, attribute_name)
-              nullable = Gadget::Common::Utility.get_field_nullability(active_record_class, attribute_name)
               field field_name, field_type, null: true,
                                             description: active_record_class.human_attribute_name(field_name)
             end

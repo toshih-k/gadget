@@ -2,6 +2,9 @@
 
 module Gadget
   module Types
+    #
+    # base input type object for gadet
+    #
     module InputObject
       extend ActiveSupport::Concern
       included do

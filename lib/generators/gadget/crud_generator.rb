@@ -16,7 +16,9 @@ module Gadget
           next if options[:opt_name]
 
           actions_merged = ALL_ACTIONS | options[opt_name]
-          raise "allowed [#{ALL_ACTIONS.join(' ')}] in #{opt_name} option" if actions_merged.length != ALL_ACTIONS.length
+          if actions_merged.length != ALL_ACTIONS.length
+            raise "allowed [#{ALL_ACTIONS.join(' ')}] in #{opt_name} option"
+          end
         end
       end
 

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Gadget
+  #
+  # initialize gadget in rails application
+  #
   class Railtie < ::Rails::Railtie
     initializer 'gadget' do |_app|
       require 'gadget/common/utility'
