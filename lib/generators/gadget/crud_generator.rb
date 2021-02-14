@@ -13,7 +13,7 @@ module Gadget
 
       def check_args
         %i[only except].each do |opt_name|
-          next if options[:opt_name]
+          next if options[:opt_name].nil?
 
           actions_merged = ALL_ACTIONS | options[opt_name]
           if actions_merged.length != ALL_ACTIONS.length
