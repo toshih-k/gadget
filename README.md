@@ -84,7 +84,7 @@ rails g gadget:gql [ModelName]
 
 オプション
 
-name[String]: クエリ名を指定
+name[String]: クエリ名を変更
 paginate[Boolean]: Kaminariベースのページングを行う
 
 app/graphql/types/query_type.rb
@@ -92,6 +92,17 @@ app/graphql/types/query_type.rb
   index Book, paginate: true, name: 'BooksPaginated'
 ```
 返すObjectTypeが通常のObjectTypeの配列ではなく、[ModelName]PaginatedObjectTypeとなるため、別途generatorでpaginated object typeを作成する必要があります。
+
+### showクエリ
+
+オプション
+
+name[String]: クエリ名を変更
+
+app/graphql/types/query_type.rb
+```
+  show Book, name: 'AlternativeBookShowQuery'
+```
 
 ## フィルタ
 

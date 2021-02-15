@@ -23,6 +23,17 @@ class QueryTypesTest < ActionDispatch::IntegrationTest
     assert_equal(books[0].sections[0].name, res['data']['books'][0]['sections'][0]['name'])
   end
 
+  test 'index query renamed' do
+    post '/graphql', {
+      params: {
+        query:
+         'query { booksRenamed {name owner{name} bookExtra{editorsComment} sections{name} authors{name}} }'
+      },
+      as: :json
+    }
+    assert_response 200
+  end
+
   test 'show query with any relation(belongs_to, has_one, has_many, has_and_belongs_to_many' do
     book = Book.first
 
@@ -41,5 +52,19 @@ class QueryTypesTest < ActionDispatch::IntegrationTest
     assert_equal(book.book_extra.editors_comment, res['data']['book']['bookExtra']['editorsComment'])
     assert_equal(book.sections.count, res['data']['book']['sections'].count)
     assert_equal(book.sections[0].name, res['data']['book']['sections'][0]['name'])
+  end
+
+  test 'show query renamed' do
+    book = Book.first
+
+    post '/graphql', {
+      params: {
+        query:
+          'query($id: ID!) { bookRenamed(id: $id) {name owner{name} bookExtra{editorsComment} sections{name} authors{name}} }',
+        variables: { id: book.id }
+      },
+      as: :json
+    }
+    assert_response 200
   end
 end

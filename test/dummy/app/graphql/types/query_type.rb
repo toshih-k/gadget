@@ -13,8 +13,9 @@ module Types
     end
 
     index Book
-    # index Book, paginate: true, name: 'BooksPaginated'
     show Book
+    index Book, name: 'BooksRenamed'
+    show Book, name: 'BookRenamed'
     index Owner
     show Owner
   end
