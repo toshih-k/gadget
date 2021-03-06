@@ -74,26 +74,32 @@ module Gadget
         end
 
         def generate_input_arguments(instance, active_record_class, _options)
-          active_record_class.attribute_names.each do |attribute_name|
-            field_name = attribute_name.to_sym
-            field_type = Gadget::Common::Utility.get_field_type(active_record_class, attribute_name)
-            # required = Gadget::Common::Utility.get_field_nullability(active_record_class, attribute_name)
-            instance.argument field_name, field_type, required: false,
-                                                      description: active_record_class.human_attribute_name(attribute_name)
-          end
-          active_record_class.reflections.each do |reflection_name, definition|
-            field_name = reflection_name.to_sym
-            next unless active_record_class.nested_attributes_options.keys.include?(field_name)
+          field_name = input_field_name(active_record_class)
+          field_type = "Types::#{active_record_class.to_s}InputType".constantize
 
-            field_type = "Types::#{definition.klass}InputType".constantize
-            if definition.belongs_to? || definition.has_one?
-              instance.argument field_name, field_type, required: false, description: definition.klass.model_name.human
-            elsif definition.collection?
-              instance.argument field_name, [field_type], required: false,
-                                                          description: "#{definition.klass.model_name.human}のコレクション"
+          instance.argument field_name,
+                            field_type,
+                            required: false,
+                            description: active_record_class.model_name.human
+          instance.argument :validation_context,
+                            GraphQL::Types::String,
+                            required: false,
+                            description: "validation context名(指定した場合はvalidationのみ行う。)"
+          yield if block_given?
+        end
+
+        #
+        # graphQLのパラメータをactiverecordのインプットの形式に変換する
+        #
+        def to_active_record_input(input, active_record_class)
+          input.keys.each_with_object({}) do |key, attributes|
+            if active_record_class.reflections.keys.include?(key.to_s)
+              values = input[key]
+              attributes["#{key}_attributes"] = values if values
+            else
+              attributes[key] = input[key]
             end
           end
-          yield if block_given?
         end
 
         #
@@ -123,7 +129,11 @@ module Gadget
         end
 
         def result_field_name(active_record_class)
-          active_record_class.name.downcase
+          active_record_class.name.underscore
+        end
+
+        def input_field_name(active_record_class)
+          active_record_class.name.underscore
         end
 
         def object_type_class(active_record_class)

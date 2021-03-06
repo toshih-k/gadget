@@ -23,28 +23,29 @@ module Gadget
               end
 
               params = params.as_json
-              instance = active_record_class.find(params['id'])
-              attributes = params.keys.each_with_object({}) do |key, attributes|
-                if active_record_class.reflections.keys.include?(key.to_s)
-                  values = params[key]
-                  attributes["#{key}_attributes"] = values if values
-                else
-                  attributes[key] = params[key]
-                end
-              end
+              input_name = Gadget::Common::Utility.input_field_name(active_record_class)
+              input_attributes = params[input_name]
+              validation_context = params['validation_context']
+
+              attributes = Gadget::Common::Utility.to_active_record_input(input_attributes, active_record_class)
+
+              instance = active_record_class.find(input_attributes['id'])
               instance.attributes = attributes
-              if instance.save
-                {
-                  success: true,
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance.as_json
-                }
+
+              if validation_context.nil?
+                success = instance.save
               else
-                {
-                  success: false,
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance.as_json,
-                  'errors' => Gadget::Common::Utility.make_error_messages(instance.errors)
-                }
+                success = instance.valid?(validation_context)
               end
+
+              result = {
+                success: success,
+                Gadget::Common::Utility.result_field_name(active_record_class).to_sym => instance.as_json
+              }
+              unless success
+                result['errors'] = Gadget::Common::Utility.make_error_messages(instance.errors)
+              end
+              result
             end
           end
         end
