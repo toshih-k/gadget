@@ -32,7 +32,7 @@ module Gadget
               GraphQL::Types::Float
             when :decimal
               if attribute_type.scale.blank?
-                if attribute_type.precision > 10
+                if attribute_type.precision.nil? || attribute_type.precision > 10
                   GraphQL::Types::BigInt
                 else
                   GraphQL::Types::Int
