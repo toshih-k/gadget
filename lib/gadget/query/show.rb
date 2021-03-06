@@ -6,13 +6,14 @@ module Gadget
       extend ActiveSupport::Concern
       included do
         class << self
-          def show(active_record_class)
+          def show(active_record_class, options = {})
+            name = options[:name] || active_record_class.name.underscore
             field active_record_class.name.underscore, Gadget::Common::Utility.object_type_class(active_record_class),
                   null: true do
               description "指定されたIDの#{active_record_class.model_name.human}を1件返す"
               argument :id, GraphQL::Types::ID, required: true
             end
-            define_method(active_record_class.name.underscore) do |id:|
+            define_method(name) do |id:|
               unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization,
                                                                      context, :show_query)
                 raise 'access denied'

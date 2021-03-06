@@ -19,14 +19,14 @@ ActiveRecord::Schema.define(version: 2021_02_13_013048) do
   end
 
   create_table "authors_books", force: :cascade do |t|
-    t.bigint "author_id"
-    t.bigint "book_id"
+    t.integer "author_id"
+    t.integer "book_id"
     t.index ["author_id"], name: "index_authors_books_on_author_id"
     t.index ["book_id"], name: "index_authors_books_on_book_id"
   end
 
   create_table "book_extras", force: :cascade do |t|
-    t.bigint "book_id"
+    t.integer "book_id"
     t.string "editors_comment"
     t.string "sales_comment"
     t.datetime "created_at", precision: 6, null: false
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_013048) do
 
   create_table "books", force: :cascade do |t|
     t.string "name"
-    t.bigint "owner_id"
+    t.integer "owner_id"
     t.integer "inventory_type", limit: 1
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_013048) do
 
   create_table "sections", force: :cascade do |t|
     t.string "name"
-    t.bigint "book_id"
+    t.integer "book_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["book_id"], name: "index_sections_on_book_id"
