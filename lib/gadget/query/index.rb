@@ -24,6 +24,7 @@ module Gadget
                 argument :per, GraphQL::Types::Int, required: true, description: '1ページごとの表示数'
               end
             end
+            yield if block_given?
             define_method(name) do |q: nil, page: nil, per: nil|
               unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization,
                                                                      context, :index_query)

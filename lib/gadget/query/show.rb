@@ -13,6 +13,7 @@ module Gadget
               description "指定されたIDの#{active_record_class.model_name.human}を1件返す"
               argument :id, GraphQL::Types::ID, required: true
             end
+            yield if block_given?
             define_method(name) do |id:|
               unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization,
                                                                      context, :show_query)
