@@ -23,7 +23,7 @@ module Gadget
                 argument :page, GraphQL::Types::Int, required: false, description: 'ページ番号(未指定時は最初のページを返す)'
                 argument :per, GraphQL::Types::Int, required: true, description: '1ページごとの表示数'
               end
-              yield if block_given?
+              yield(self) if block_given?
             end
             define_method(name) do |q: nil, page: nil, per: nil|
               unless Gadget::Common::Utility.execute_method_if_exist(active_record_class, true, :gadget_authorization,
