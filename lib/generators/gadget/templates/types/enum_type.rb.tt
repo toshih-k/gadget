@@ -1,0 +1,5 @@
+module Types
+  class <%= name %><%= attribute.camelize %>Type < Types::BaseEnum
+    from_active_record <%= name %>, '<%= attribute %>'
+  end
+end
