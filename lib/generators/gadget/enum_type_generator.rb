@@ -14,8 +14,8 @@ module Gadget
       end
 
       def create_type_file
-        attribute = options[:attribute]
-        template('types/enum_type.rb.tt', "app/graphql/types/#{file_name}_#{attribute}_type.rb", { name: name, attribute: attribute })
+        @attribute = options[:attribute]
+        template('types/enum_type.rb.tt', "app/graphql/types/#{file_name}_#{@attribute}_type.rb", { name: name })
       end
     end
   end
