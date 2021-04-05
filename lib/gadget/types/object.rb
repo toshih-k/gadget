@@ -18,6 +18,7 @@ module Gadget
                                             description: active_record_class.human_attribute_name(field_name)
             end
             active_record_class.reflections.each do |reflection_name, definition|
+              next if definition.klass.to_s == 'ActiveStorage'
               field_name = reflection_name.to_sym
               field_type = "Types::#{definition.klass}Type".constantize
               if definition.belongs_to? || definition.has_one?
