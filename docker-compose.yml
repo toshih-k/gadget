@@ -6,6 +6,8 @@ services:
     ports:
       - "3000:3000"
     hostname: gadget
+    tty: true
+    stdin_open: true
     volumes:
       - ./:/usr/src/app:rw
       # - /usr/src/app/vendor/node_modules
