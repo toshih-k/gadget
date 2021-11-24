@@ -6,6 +6,15 @@ module Gadget
       extend ActiveSupport::Concern
       included do
         class << self
+
+          class_attribute :after_update_methods
+
+          self.after_update_methods = []
+
+          def after_update(name)
+            self.after_update_methods << name
+          end
+
           def update_mutation_for(active_record_class, options = {})
             description "#{active_record_class.model_name.human}を更新する"
             field 'success', GraphQL::Types::Boolean, null: false
@@ -42,7 +51,11 @@ module Gadget
                 success: success,
                 Gadget::Common::Utility.result_field_name(active_record_class).to_sym => instance.as_json
               }
-              unless success
+              if success
+                self.class.after_update_methods.each do |method_name|
+                  send method_name, instance
+                end
+              else
                 result['errors'] = Gadget::Common::Utility.make_error_messages(instance.errors)
               end
               result

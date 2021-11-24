@@ -6,6 +6,14 @@ module Gadget
       extend ActiveSupport::Concern
       included do
         class << self
+          class_attribute :after_delete_methods
+
+          self.after_delete_methods = []
+
+          def after_delete(name)
+            self.after_delete_methods << name
+          end
+
           def delete_mutation_for(active_record_class, _options = {})
             description "#{active_record_class.model_name.human}を削除する"
             field 'success', GraphQL::Types::Boolean, null: false
@@ -22,18 +30,19 @@ module Gadget
 
               params = params.as_json
               instance = active_record_class.find(params[active_record_class.primary_key])
-              if instance.destroy
-                {
-                  success: true,
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance.as_json
-                }
+              success = instance.destroy
+              result = {
+                success: success,
+                Gadget::Common::Utility.result_field_name(active_record_class).to_sym => instance.as_json
+              }
+              if success
+                self.class.after_delete_methods.each do |method_name|
+                  send method_name, instance
+                end
               else
-                {
-                  success: false,
-                  Gadget::Common::Utility.result_field_name(active_record_class) => instance,
-                  'errors' => Gadget::Common::Utility.make_error_messages(instance.errors)
-                }
+                result['errors'] = Gadget::Common::Utility.make_error_messages(instance.errors)
               end
+              result
             end
           end
         end

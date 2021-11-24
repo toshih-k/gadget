@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Gadget
-  VERSION = '0.2.33'
+  VERSION = '0.3.1'
 end

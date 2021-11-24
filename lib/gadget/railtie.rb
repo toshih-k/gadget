@@ -20,11 +20,8 @@ module Gadget
       GraphQL::Schema::InputObject.include Gadget::Types::InputObject
       GraphQL::Schema::Enum.include Gadget::Types::Enum
 
-      GraphQL::Schema::Object.include Gadget::Query::Index
-      GraphQL::Schema::Object.include Gadget::Query::Show
-
-      GraphQL::Schema::Object.include Gadget::Query::Index
-      GraphQL::Schema::Object.include Gadget::Query::Show
+      # GraphQL::Schema::Resolver.include Gadget::Query::Index
+      # GraphQL::Schema::Resolver.include Gadget::Query::Show
 
       GraphQL::Schema::RelayClassicMutation.include Gadget::Mutation::Create
       GraphQL::Schema::RelayClassicMutation.include Gadget::Mutation::Update
