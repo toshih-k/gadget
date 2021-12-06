@@ -6,6 +6,14 @@ module Gadget
       extend ActiveSupport::Concern
       included do
         class << self
+          class_attribute :after_find_methods
+
+          self.after_find_methods = []
+
+          def after_find(name)
+            self.after_find_methods << name
+          end
+
           def show_query_from(active_record_class, options = {})
             name = options[:name] || active_record_class.name.underscore
 
@@ -21,7 +29,11 @@ module Gadget
 
               relation = Gadget::Common::Utility.execute_method_if_exist(active_record_class, active_record_class,
                                                                          :before_gadget_show_query)
-              relation.find(id)
+              result = relation.find(id)
+              self.class.after_find_methods.each do |method_name|
+                result = send method_name, result
+              end
+              result
             end
           end
         end
