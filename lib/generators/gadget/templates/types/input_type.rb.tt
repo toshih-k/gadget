@@ -1,5 +1,7 @@
 module Types
   class <%= name %>InputType < Types::BaseInputObject
+    include Gadget::Types::InputObject
+
     from_active_record <%= name %>
   end
 end

@@ -1,0 +1,5 @@
+class Queries::<%= name %> < Queries::BaseQuery
+  include Gadget::Query::Show
+
+  show_query_from <%= name %>
+end

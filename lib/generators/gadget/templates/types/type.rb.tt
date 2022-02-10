@@ -1,5 +1,7 @@
 module Types
   class <%= name %>Type < Types::BaseObject
+    include Gadget::Types::Object
+
     from_active_record <%= name %>
   end
 end

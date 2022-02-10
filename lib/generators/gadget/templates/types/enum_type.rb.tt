@@ -1,5 +1,7 @@
 module Types
   class <%= name %><%= @attribute.camelize %>Type < Types::BaseEnum
+    include Gadget::Types::Enum
+
     from_active_record_enum <%= name %>, '<%= @attribute %>'
   end
 end

@@ -1,5 +1,7 @@
 module Mutations
   class Update<%= name %>Mutation < BaseMutation
+    include Gadget::Mutation::Update
+
     update_mutation_for <%= name %>
   end
 end

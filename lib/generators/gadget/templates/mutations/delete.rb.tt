@@ -1,5 +1,7 @@
 module Mutations
   class Delete<%= name %>Mutation < BaseMutation
+    include Gadget::Mutation::Delete
+
     delete_mutation_for <%= name %>
   end
 end

@@ -1,5 +1,7 @@
 module Mutations
   class Create<%= name %>Mutation < BaseMutation
+    include Gadget::Mutation::Create
+
     create_mutation_for <%= name %>
   end
 end

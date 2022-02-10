@@ -1,0 +1,5 @@
+class Queries::<%= name.pluralize %> < Queries::BaseQuery
+  include Gadget::Query::Index
+
+  index_query_from <%= name %>
+end
