@@ -6,22 +6,22 @@ class MutationTest < ActionDispatch::IntegrationTest
   test 'create mutation' do
     book_count = Book.count
 
-    query = <<'GQL'
-    mutation($input: CreateBookMutationInput!) {
-      createBook(input: $input) {
-        book {
-          id
-          name
-          owner {
+    query = <<-'GQL'
+      mutation($input: CreateBookMutationInput!) {
+        createBook(input: $input) {
+          book {
             id
             name
+            owner {
+              id
+              name
+            }
           }
+          clientMutationId
+          errors
         }
-        clientMutationId
-        errors
       }
-    }
-GQL
+    GQL
     variables = {
       input: {
         book: {
@@ -52,22 +52,22 @@ GQL
   test 'create mutation(validation context)' do
     book_count = Book.count
 
-    query = <<'GQL'
-    mutation($input: CreateBookMutationInput!) {
-      createBook(input: $input) {
-        book {
-          id
-          name
-          owner {
+    query = <<-'GQL'
+      mutation($input: CreateBookMutationInput!) {
+        createBook(input: $input) {
+          book {
             id
             name
+            owner {
+              id
+              name
+            }
           }
+          clientMutationId
+          errors
         }
-        clientMutationId
-        errors
       }
-    }
-GQL
+    GQL
     variables = {
       input: {
         book: {
@@ -102,22 +102,22 @@ GQL
     modified_book_name = "#{book.name}aaa"
     modified_owner_name = "#{book.owner.name}aaa"
     book_count = Book.count
-    query = <<'GQL'
-    mutation($input: UpdateBookMutationInput!) {
-      updateBook(input: $input) {
-        book {
-          id
-          name
-          owner {
+    query = <<-'GQL'
+      mutation($input: UpdateBookMutationInput!) {
+        updateBook(input: $input) {
+          book {
             id
             name
+            owner {
+              id
+              name
+            }
           }
+          clientMutationId
+          errors
         }
-        clientMutationId
-        errors
       }
-    }
-GQL
+    GQL
     variables = {
       input: {
         book: {

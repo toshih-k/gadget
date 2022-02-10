@@ -12,11 +12,19 @@ module Types
       'Hello World!'
     end
 
-    index Book
-    show Book
-    index Book, name: 'BooksRenamed'
-    show Book, name: 'BookRenamed'
-    index Owner
-    show Owner
+    # index Book
+    # show Book
+    # index Book, name: 'BooksRenamed'
+    # show Book, name: 'BookRenamed'
+    # index Owner
+    # show Owner
+    field :books, resolver: Queries::Books
+    field :book, resolver: Queries::Book
+    field :books_renamed, resolver: Queries::BooksRenamed
+    field :book_renamed, resolver: Queries::BookRenamed
+    field :owners, resolver: Queries::Owners
+    field :owner, resolver: Queries::Owner
+
+
   end
 end

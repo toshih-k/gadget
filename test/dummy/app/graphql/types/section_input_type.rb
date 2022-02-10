@@ -2,6 +2,7 @@
 
 module Types
   class SectionInputType < Types::BaseInputObject
-    from_active_record Section
+    include Gadget::Types::InputObject
+    from_active_record ::Section
   end
 end

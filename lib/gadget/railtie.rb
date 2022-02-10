@@ -16,16 +16,16 @@ module Gadget
       require 'gadget/mutation/update'
       require 'gadget/mutation/delete'
 
-      GraphQL::Schema::Object.include Gadget::Types::Object
-      GraphQL::Schema::InputObject.include Gadget::Types::InputObject
-      GraphQL::Schema::Enum.include Gadget::Types::Enum
+      # GraphQL::Schema::Object.include Gadget::Types::Object
+      # GraphQL::Schema::InputObject.include Gadget::Types::InputObject
+      # GraphQL::Schema::Enum.include Gadget::Types::Enum
 
       # GraphQL::Schema::Resolver.include Gadget::Query::Index
       # GraphQL::Schema::Resolver.include Gadget::Query::Show
 
-      GraphQL::Schema::RelayClassicMutation.include Gadget::Mutation::Create
-      GraphQL::Schema::RelayClassicMutation.include Gadget::Mutation::Update
-      GraphQL::Schema::RelayClassicMutation.include Gadget::Mutation::Delete
+      # GraphQL::Schema::RelayClassicMutation.include Gadget::Mutation::Create
+      # GraphQL::Schema::RelayClassicMutation.include Gadget::Mutation::Update
+      # GraphQL::Schema::RelayClassicMutation.include Gadget::Mutation::Delete
     end
   end
 end

@@ -9,8 +9,8 @@ module Types
       'Hello World'
     end
 
-    field :create_book, mutation: Mutations::CreateBookMutation
-    field :update_book, mutation: Mutations::UpdateBookMutation
-    field :delete_book, mutation: Mutations::DeleteBookMutation
+    field :create_owner, mutation: Mutations::CreateOwnerMutation
+    field :update_owner, mutation: Mutations::UpdateOwnerMutation
+    field :delete_owner, mutation: Mutations::DeleteOwnerMutation
   end
 end

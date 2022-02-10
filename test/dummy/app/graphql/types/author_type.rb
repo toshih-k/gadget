@@ -2,6 +2,7 @@
 
 module Types
   class AuthorType < Types::BaseObject
-    from_active_record Author
+    include Gadget::Types::Object
+    from_active_record ::Author
   end
 end

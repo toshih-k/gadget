@@ -2,6 +2,7 @@
 
 module Mutations
   class UpdateBookMutation < BaseMutation
-    update_mutation_for Book
+    include Gadget::Mutation::Update
+    update_mutation_for ::Book
   end
 end

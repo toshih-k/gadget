@@ -2,6 +2,7 @@
 
 module Mutations
   class DeleteBookMutation < BaseMutation
-    delete_mutation_for Book
+    include Gadget::Mutation::Delete
+    delete_mutation_for ::Book
   end
 end

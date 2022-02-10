@@ -21,14 +21,8 @@ module Gadget
             field Gadget::Common::Utility.result_field_name(active_record_class),
                   Gadget::Common::Utility.object_type_class(active_record_class), null: false
             field 'errors', GraphQL::Types::JSON, null: true
-            argument :validation_context, GraphQL::Types::String, required: false do
-              description "validation context名(指定した場合はvalidationのみ行う。)"
-            end
-            argument Gadget::Common::Utility.result_field_name(active_record_class),
-                     GraphQL::Types::Boolean,
-                     required: false,
-                     description: "Book"
             Gadget::Common::Utility.generate_input_arguments(self, active_record_class, options) do
+              yield if block_given?
             end
 
             define_method('resolve') do |params|

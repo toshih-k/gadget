@@ -2,6 +2,7 @@
 
 module Types
   class BookExtraInputType < BaseInputObject
-    from_active_record BookExtra
+    include Gadget::Types::InputObject
+    from_active_record ::BookExtra
   end
 end
