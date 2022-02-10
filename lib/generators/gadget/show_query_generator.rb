@@ -22,7 +22,7 @@ module Gadget
       end
 
       def create_show_query_file
-        template('queries/index.rb.tt', "app/graphql/queries/#{file_name}.rb", { name: name })
+        template('queries/show.rb.tt', "app/graphql/queries/#{file_name}.rb", { name: name })
       end
 
     end

@@ -13,6 +13,7 @@ class IndexQueryGeneratorTest < Rails::Generators::TestCase
     FileUtils.mkdir_p(destdir)
     FileUtils.cp File.expand_path("../files/query_type.rb", __dir__), destdir
     run_generator ['Shop']
-    assert_file '../tmp/app/graphql/types/query_type.rb', /index Shop/
+    assert_file '../tmp/app/graphql/types/query_type.rb', /field :shops, resolver: Queries::Shops/
+    assert_file '../tmp/app/graphql/queries/shops.rb'
   end
 end

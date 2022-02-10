@@ -29,7 +29,7 @@ module Gadget
             end
 
             yield if block_given?
-            field :_destroy, GraphQL::Types::Boolean, null: false, description: '削除フラグ'
+            field :_destroy, GraphQL::Types::Boolean, null: true, description: '削除フラグ'
           end
         end
       end
