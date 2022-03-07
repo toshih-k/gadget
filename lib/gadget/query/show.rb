@@ -6,9 +6,15 @@ module Gadget
       extend ActiveSupport::Concern
       included do
         class << self
+          class_attribute :before_find_methods
           class_attribute :after_find_methods
 
+          self.before_find_methods = []
           self.after_find_methods = []
+
+          def before_find(name)
+            self.before_find_methods << name
+          end
 
           def after_find(name)
             self.after_find_methods << name
@@ -29,6 +35,9 @@ module Gadget
 
               relation = Gadget::Common::Utility.execute_method_if_exist(active_record_class, active_record_class,
                                                                          :before_gadget_show_query)
+              self.class.before_find_methods.each do |method_name|
+                relation = send method_name, relation
+              end
               result = relation.find(id)
               self.class.after_find_methods.each do |method_name|
                 result = send method_name, result

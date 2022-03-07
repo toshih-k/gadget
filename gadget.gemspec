@@ -32,6 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'kaminari', '~> 1.2', '>= 1.2.1'
   spec.add_dependency 'rails', '>= 4'
   spec.add_dependency 'ransack', '~> 2.3', '>= 2.3.2'
+  spec.add_dependency 'ransack-enum', '~> 1.0'
 
   spec.add_development_dependency 'graphiql-rails'
   spec.add_development_dependency 'graphql'
