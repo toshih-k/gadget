@@ -53,7 +53,7 @@ module Gadget
             when :datetime
               GraphQL::Types::ISO8601DateTime
             else
-              raise "Cannot convert column TYPE to GraphQL TYPE column.type=[#{attribute_type.type}] on #{active_record_class}::#{attribute_name}"
+              raise "Cannot convert column TYPE to GraphQL TYPE column.type=[#{attribute_type.type}] on #{active_record_class}:#{attribute_name}"
             end
           end
         end
@@ -68,9 +68,14 @@ module Gadget
         end
 
         def make_error_messages(errors)
-          errors.map do |key, _error|
-            [key, errors.full_messages_for(key)]
-          end.to_h
+          # errors.map do |key, _error|
+          #   [key, errors.full_messages_for(key)]
+          # end.to_h
+          errors.reduce({}) do |error_messages, error|
+            error_messages[error.attribute] ||= []
+            error_messages[error.attribute] << error.message
+            error_messages
+          end
         end
 
         def generate_input_arguments(instance, active_record_class, _options)
