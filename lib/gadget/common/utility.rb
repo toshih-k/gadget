@@ -72,7 +72,7 @@ module Gadget
           #   [key, errors.full_messages_for(key)]
           # end.to_h
           errors.reduce({}) do |error_messages, error|
-            key = error.attribute.camelize(:lower)
+            key = error.attribute.to_s.camelize(:lower)
             error_messages[key] ||= []
             error_messages[key] << error.message
             error_messages
