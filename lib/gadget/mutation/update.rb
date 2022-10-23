@@ -7,9 +7,15 @@ module Gadget
       included do
         class << self
 
+          class_attribute :before_update_methods
           class_attribute :after_update_methods
 
+          self.before_update_methods = []
           self.after_update_methods = []
+
+          def before_update(name)
+            self.after_update_methods << name
+          end
 
           def after_update(name)
             self.after_update_methods << name
@@ -41,6 +47,9 @@ module Gadget
               instance = active_record_class.find(input_attributes['id'])
               instance.attributes = attributes
 
+              self.class.before_update_methods.each do |method_name|
+                send method_name, instance
+              end
               if validation_context.nil?
                 success = instance.save
               else

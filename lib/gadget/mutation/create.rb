@@ -7,9 +7,15 @@ module Gadget
       included do
         class << self
 
+          class_attribute :before_create_methods
           class_attribute :after_create_methods
 
+          self.before_create_methods = []
           self.after_create_methods = []
+
+          def before_create(name)
+            self.before_create_methods << name
+          end
 
           def after_create(name)
             self.after_create_methods << name
@@ -39,6 +45,9 @@ module Gadget
               attributes = Gadget::Common::Utility.to_active_record_input(input_attributes, active_record_class)
 
               instance = active_record_class.new(attributes)
+              self.class.before_create_methods.each do |method_name|
+                send method_name, instance
+              end
               if validation_context.nil?
                 success = instance.save
               else
