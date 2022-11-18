@@ -14,7 +14,7 @@ module Gadget
 
         def get_field_type(active_record_class, attribute_name)
           if attribute_name == active_record_class.primary_key
-            GraphQL::Types::Int
+            GraphQL::Types::BigInt
           elsif active_record_class.defined_enums[attribute_name]
             "Types::#{active_record_class.name}#{attribute_name.camelize}Type".constantize
           else
